@@ -1,1119 +1,597 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quant Landing — Trading • Investing • Analysis • Research</title>
-  <meta name="description" content="A simple personal landing page for trading, investing, stock analysis, and research." />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketScope | Trading & Investment Landing Page</title>
+  <meta name="description" content="A simple landing page for trading, investing, research, and stock analysis." />
   <style>
-    /* -----------------------------
-      Design tokens + themes
-    ----------------------------- */
-    :root{
-      --bg: #07090d;
-      --bg2:#0b0f18;
-      --text:#e9eefc;
-      --muted:#a9b3d1;
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121934;
       --card: rgba(255,255,255,0.06);
-      --card2: rgba(255,255,255,0.04);
+      --text: #f4f7ff;
+      --muted: #b7c0de;
+      --accent: #5ee7ff;
+      --accent-2: #7a6bff;
       --border: rgba(255,255,255,0.12);
-      --shadow: 0 18px 60px rgba(0,0,0,0.45);
-      --accent:#4DEBFF;
-      --accent2:#7c5cff;
-      --good:#45f08a;
-      --warn:#ffcf5a;
-
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
       --radius: 18px;
-      --radius2: 26px;
-      --max: 1120px;
-
-      --navH: 72px;
-      --focus: 0 0 0 4px rgba(77,235,255,0.25);
+      --max-width: 1120px;
     }
 
-    /* Light theme */
-    .theme-light{
-      --bg:#f6f8ff;
-      --bg2:#ffffff;
-      --text:#0c1020;
-      --muted:#4b587a;
-      --card: rgba(12,16,32,0.05);
-      --card2: rgba(12,16,32,0.04);
-      --border: rgba(12,16,32,0.12);
-      --shadow: 0 18px 60px rgba(20,28,60,0.14);
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background:
-        radial-gradient(900px 380px at 20% -10%, rgba(77,235,255,0.18), transparent 60%),
-        radial-gradient(800px 420px at 90% 0%, rgba(124,92,255,0.22), transparent 55%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      color:var(--text);
-      overflow-x:hidden;
-    }
-
-    a{color:inherit; text-decoration:none}
-    button{font:inherit}
-
-    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
-
-    /* -----------------------------
-      Navbar
-    ----------------------------- */
-    .nav{
-      position:sticky; top:0; z-index:50;
-      height:var(--navH);
-      backdrop-filter: blur(12px);
-      background: linear-gradient(180deg, rgba(10,12,18,0.72), rgba(10,12,18,0.32));
-      border-bottom:1px solid var(--border);
-    }
-    .theme-light .nav{
-      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.55));
-    }
-
-    .nav-inner{
-      height:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:800; letter-spacing:-0.02em;
-    }
-    .brand-badge{
-      width:34px; height:34px; border-radius:12px;
-      background: radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.15)),
-                  linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 10px 30px rgba(77,235,255,0.15);
-      border:1px solid rgba(255,255,255,0.25);
-    }
-    .nav-links{
-      display:flex; align-items:center; gap:18px;
-      color:var(--muted);
-      font-weight:600;
-    }
-    .nav-links a{padding:10px 10px; border-radius:12px}
-    .nav-links a:hover{background:var(--card)}
-    .nav-actions{display:flex; align-items:center; gap:10px}
-
-    .icon-btn{
-      height:40px; width:40px;
-      display:grid; place-items:center;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background: var(--card2);
-      cursor:pointer;
-      transition: transform .15s ease, background .15s ease;
-    }
-    .icon-btn:hover{transform: translateY(-1px); background: var(--card)}
-    .icon-btn:focus{outline:none; box-shadow: var(--focus)}
-    .menu-btn{display:none}
-
-    /* -----------------------------
-      Hero
-    ----------------------------- */
-    .hero{
-      padding: 34px 0 12px;
-      position:relative;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 22px;
-      align-items:stretch;
-      padding: 26px 0 10px;
-    }
-    .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border:1px solid var(--border);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-    }
-    .panel-inner{padding: 26px}
-    .eyebrow{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: var(--muted);
-      font-weight:700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: var(--good);
-      box-shadow: 0 0 0 6px rgba(69,240,138,0.12);
-    }
-    h1{
-      margin: 16px 0 10px;
-      font-size: clamp(28px, 3.4vw, 44px);
-      line-height: 1.06;
-      letter-spacing: -0.03em;
-    }
-    .sub{
-      margin:0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
-      max-width: 60ch;
-    }
-
-    .cta-row{
-      margin-top: 18px;
-      display:flex; flex-wrap:wrap;
-      gap: 12px;
-      align-items:center;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      height: 46px;
-      padding: 0 16px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--card2);
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
-      font-weight: 800;
-      cursor:pointer;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-    }
-    .btn:hover{transform: translateY(-1px); background: var(--card)}
-    .btn:focus{outline:none; box-shadow: var(--focus)}
-    .btn-primary{
-      border-color: rgba(77,235,255,0.45);
-      background: linear-gradient(135deg, rgba(77,235,255,0.22), rgba(124,92,255,0.18));
-      position:relative;
-      overflow:hidden;
-    }
-    .btn-primary::after{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(240px 120px at 30% 40%, rgba(77,235,255,0.20), transparent 60%),
-                  radial-gradient(220px 120px at 80% 30%, rgba(124,92,255,0.18), transparent 55%);
-      pointer-events:none;
+      background:
+        radial-gradient(circle at top left, rgba(94,231,255,0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(122,107,255,0.18), transparent 32%),
+        linear-gradient(180deg, var(--bg), #090d18 60%, #0d1430 100%);
+      line-height: 1.6;
     }
 
-    .kpis{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(11, 16, 32, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
       gap: 10px;
     }
-    .kpi{
-      padding: 14px 14px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-    }
-    .kpi .num{
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-    .kpi .label{
-      color: var(--muted);
-      margin-top: 6px;
-      font-size: 13px;
-      font-weight: 700;
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 10px 24px rgba(94,231,255,0.24);
     }
 
-    /* -----------------------------
-      Chart card
-    ----------------------------- */
-    .chart-head{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-      margin-bottom: 12px;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .mini-title{
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      margin:0;
-      font-size: 16px;
-    }
-    .mini-sub{
-      margin: 6px 0 0;
+
+    .nav-links > a,
+    .drop-btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 600;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-    .seg{
-      display:inline-flex; gap:6px;
-      border:1px solid var(--border);
-      padding: 6px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .seg button{
-      border:none;
       background: transparent;
-      color: var(--muted);
-      font-weight: 900;
-      padding: 8px 10px;
-      border-radius: 999px;
-      cursor:pointer;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
     }
-    .seg button.active{
-      color: var(--text);
-      background: rgba(77,235,255,0.16);
-      border:1px solid rgba(77,235,255,0.35);
-    }
-    .seg button:focus{outline:none; box-shadow: var(--focus)}
-    .canvas-wrap{
-      position:relative;
-      border-radius: 20px;
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      overflow:hidden;
-      padding: 14px;
-    }
-    canvas{width:100%; height: 220px; display:block}
-    .chart-legend{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-    }
-    .swatch{
-      width:10px; height:10px; border-radius:999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 5px rgba(77,235,255,0.14);
-    }
-    .swatch.alt{background: var(--accent2); box-shadow: 0 0 0 5px rgba(124,92,255,0.14);}
 
-    /* -----------------------------
-      Sections
-    ----------------------------- */
-    section{padding: 34px 0}
-    .section-title{
-      font-size: 22px;
-      letter-spacing:-0.02em;
+    .nav-links > a:hover,
+    .drop-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 200px;
+      background: #111831;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      display: none;
+      overflow: hidden;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px 14px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 70px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      margin: 0 0 24px;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #08101d;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat,
+    .glass-card,
+    .feature-card,
+    .cta-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .glass-card {
+      padding: 24px;
+    }
+
+    .chart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .chart-head h3,
+    .section-title,
+    .feature-card h3,
+    .cta-box h3 {
       margin: 0 0 8px;
     }
-    .section-sub{
-      margin: 0 0 18px;
+
+    .chart-head p,
+    .section-sub,
+    .feature-card p,
+    .cta-box p,
+    .chart-note {
+      margin: 0;
       color: var(--muted);
-      line-height:1.6;
-      max-width: 70ch;
     }
 
-    .cards{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+    .mini-chart {
+      height: 250px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
     }
-    .card{
-      padding: 16px;
-      border-radius: var(--radius);
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.045);
-      transition: transform .18s ease, background .18s ease;
-      min-height: 150px;
+
+    .mini-chart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-    .card:hover{transform: translateY(-2px); background: rgba(255,255,255,0.06)}
-    .card h3{
-      margin: 10px 0 8px;
-      font-size: 15px;
-      letter-spacing:-0.02em;
+
+    section {
+      padding: 30px 0;
     }
-    .card p{
-      margin:0;
-      color: var(--muted);
-      line-height:1.55;
-      font-size: 13px;
+
+    .section-title {
+      font-size: 2rem;
     }
-    .icon{
-      width: 38px; height:38px;
-      display:grid; place-items:center;
+
+    .section-sub {
+      max-width: 700px;
+      margin-bottom: 22px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature-card {
+      padding: 22px;
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
       border-radius: 14px;
-      border:1px solid var(--border);
-      background: linear-gradient(135deg, rgba(77,235,255,0.18), rgba(124,92,255,0.14));
+      margin-bottom: 14px;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, rgba(94,231,255,0.22), rgba(122,107,255,0.22));
     }
 
-    .grid-2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .cta {
+      padding: 40px 0 70px;
     }
 
-    .list{
-      display:flex; flex-direction:column; gap:10px;
-    }
-    .item{
-      display:flex; justify-content:space-between; gap:10px;
-      padding: 14px;
-      border-radius: 18px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-    }
-    .item strong{font-weight: 900}
-    .tag{
-      font-size: 12px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: var(--muted);
-      white-space:nowrap;
-      height: fit-content;
+    .cta-box {
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    /* -----------------------------
-      Footer
-    ----------------------------- */
-    footer{
-      padding: 26px 0 40px;
-      color: var(--muted);
+    footer {
       border-top: 1px solid var(--border);
-      margin-top: 18px;
-    }
-    .foot{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-      flex-wrap:wrap;
-    }
-    .foot a{color: var(--text); opacity: .9}
-    .muted{color:var(--muted)}
-
-    /* -----------------------------
-      Reveal animations
-    ----------------------------- */
-    .reveal{
-      opacity:0; transform: translateY(10px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .reveal.show{opacity:1; transform:none}
-
-    /* -----------------------------
-      Responsive
-    ----------------------------- */
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns: 1fr; }
-      .cards{grid-template-columns: repeat(2, minmax(0,1fr))}
-      .grid-2{grid-template-columns: 1fr}
-    }
-    @media (max-width: 720px){
-      .nav-links{display:none}
-      .menu-btn{display:grid}
-      .kpis{grid-template-columns: 1fr; }
-      .cards{grid-template-columns: 1fr}
+      padding: 24px 0 40px;
+      color: var(--muted);
     }
 
-    /* Mobile menu */
-    .mobile{
-      display:none;
-      position:fixed; inset: calc(var(--navH) + 10px) 14px auto 14px;
-      z-index:60;
-      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
-      border:1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .mobile.open{display:block}
-    .mobile a{
-      display:block;
-      padding: 14px 16px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      color: var(--text);
-      font-weight: 800;
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
     }
-    .mobile a:last-child{border-bottom:none}
-    .mobile a:hover{background: rgba(255,255,255,0.06)}
+
+    @media (max-width: 760px) {
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        background: #111831;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .nav-links > a,
+      .drop-btn {
+        width: 100%;
+        text-align: left;
+      }
+
+      .dropdown-content {
+        position: static;
+        margin-top: 8px;
+        width: 100%;
+        box-shadow: none;
+      }
+    }
   </style>
 </head>
-
-<body class="theme-dark">
-  <!-- NAV -->
-  <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="#top" aria-label="Go to top">
-        <span class="brand-badge" aria-hidden="true"></span>
-        <span>QuantDesk</span>
+<body>
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a href="#home" class="logo">
+        <span class="logo-badge"></span>
+        <span>MarketScope</span>
       </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#work">What I do</a>
-        <a href="#toolkit">Toolkit</a>
-        <a href="#notes">Research notes</a>
+      <button class="menu-toggle" id="menuToggle">Menu</button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+
+        <div class="dropdown" id="pagesDropdown">
+          <button class="drop-btn" id="dropBtn">Pages ▾</button>
+          <div class="dropdown-content">
+            <a href="about.html">About Page</a>
+            <a href="projects.html">Projects Page</a>
+            <a href="contact.html">Contact Page</a>
+          </div>
+        </div>
+
         <a href="#contact">Contact</a>
       </nav>
-
-      <div class="nav-actions">
-        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
-          <!-- sun/moon icon -->
-          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M5 19l1.5-1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-
-        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" title="Menu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
     </div>
   </header>
 
-  <!-- Mobile menu -->
-  <div class="mobile" id="mobileMenu" aria-label="Mobile navigation">
-    <a href="#work">What I do</a>
-    <a href="#toolkit">Toolkit</a>
-    <a href="#notes">Research notes</a>
-    <a href="#contact">Contact</a>
-  </div>
-
-  <!-- HERO -->
-  <main id="top" class="hero">
-    <div class="container hero-grid">
-      <!-- Left panel -->
-      <div class="panel reveal">
-        <div class="panel-inner">
-          <span class="eyebrow"><span class="dot"></span> PERSONAL FINANCE LAB</span>
-          <h1>Trading, investing, stock analysis — with research-first decisions.</h1>
-          <p class="sub">
-            I track markets, backtest ideas, and turn messy data into simple actions.
-            This page is a clean “home base” for my work — strategies, notes, and tools.
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="tag">TRADING • INVESTING • RESEARCH</span>
+          <h1>Simple market analysis with a clean personal landing page.</h1>
+          <p>
+            This is a modern one-page website for your trading, investment, stock analysis, or research work.
+            It includes a dropdown menu so you can connect your other pages easily on GitHub Pages.
           </p>
-
-          <div class="cta-row">
-            <button class="btn btn-primary" id="openDash">
-              Open Dashboard
-              <span aria-hidden="true">→</span>
-            </button>
-            <a class="btn" href="#toolkit">
-              See Toolkit
-              <span aria-hidden="true">↘</span>
-            </a>
-            <a class="btn" href="#notes">
-              Read Notes
-              <span aria-hidden="true">📌</span>
-            </a>
+          <div class="hero-actions">
+            <a href="#services" class="btn btn-primary">Explore Services</a>
+            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
           </div>
 
-          <div class="kpis" aria-label="Quick stats">
-            <div class="kpi">
-              <div class="num" data-count="128">0</div>
-              <div class="label">watchlist items</div>
+          <div class="stats">
+            <div class="stat">
+              <strong>120+</strong>
+              <span>stocks tracked</span>
             </div>
-            <div class="kpi">
-              <div class="num" data-count="42">0</div>
-              <div class="label">strategies tested</div>
+            <div class="stat">
+              <strong>45</strong>
+              <span>research notes</span>
             </div>
-            <div class="kpi">
-              <div class="num" data-count="365">0</div>
-              <div class="label">days tracked</div>
+            <div class="stat">
+              <strong>3+</strong>
+              <span>connected pages</span>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Right panel -->
-      <div class="panel reveal">
-        <div class="panel-inner">
+        <div class="glass-card">
           <div class="chart-head">
             <div>
-              <p class="mini-title">Portfolio Snapshot</p>
-              <p class="mini-sub">A tiny visual (demo data). You can replace with real values later.</p>
-            </div>
-            <div class="seg" role="tablist" aria-label="Chart range">
-              <button class="active" data-range="7" role="tab" aria-selected="true">1W</button>
-              <button data-range="30" role="tab" aria-selected="false">1M</button>
-              <button data-range="365" role="tab" aria-selected="false">1Y</button>
+              <h3>Portfolio Snapshot</h3>
+              <p>Simple visual block for your website homepage.</p>
             </div>
           </div>
 
-          <div class="canvas-wrap">
-            <canvas id="chart" width="820" height="260" aria-label="Line chart"></canvas>
-          </div>
+          <div class="mini-chart">
+            <svg viewBox="0 0 600 250" preserveAspectRatio="none" aria-label="Decorative chart">
+              <defs>
+                <linearGradient id="line1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#5ee7ff" />
+                  <stop offset="100%" stop-color="#7a6bff" />
+                </linearGradient>
+                <linearGradient id="fill1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(94,231,255,0.35)" />
+                  <stop offset="100%" stop-color="rgba(94,231,255,0.02)" />
+                </linearGradient>
+              </defs>
 
-          <div class="chart-legend" aria-label="Legend">
-            <span class="pill"><span class="swatch"></span> Equity curve</span>
-            <span class="pill"><span class="swatch alt"></span> Benchmark</span>
-            <span class="pill">Hover: <span class="muted">shows point value</span></span>
+              <g opacity="0.18" stroke="#ffffff">
+                <line x1="30" y1="40" x2="570" y2="40"></line>
+                <line x1="30" y1="90" x2="570" y2="90"></line>
+                <line x1="30" y1="140" x2="570" y2="140"></line>
+                <line x1="30" y1="190" x2="570" y2="190"></line>
+              </g>
+
+              <path d="M30 195 C90 180, 120 170, 170 155 S260 130, 310 120 S410 88, 460 100 S520 70, 570 40 L570 220 L30 220 Z"
+                    fill="url(#fill1)"></path>
+              <path d="M30 195 C90 180, 120 170, 170 155 S260 130, 310 120 S410 88, 460 100 S520 70, 570 40"
+                    fill="none" stroke="url(#line1)" stroke-width="5" stroke-linecap="round"></path>
+            </svg>
           </div>
+          <p class="chart-note" style="margin-top: 14px;">You can replace this area with an image, chart, or your dashboard screenshot later.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- What I do -->
-    <section id="work">
+    <section id="services">
       <div class="container">
-        <h2 class="section-title reveal">What I do</h2>
-        <p class="section-sub reveal">
-          Four core areas. Simple, clear, and focused on real outcomes.
+        <h2 class="section-title">What this page is for</h2>
+        <p class="section-sub">
+          A clean landing page that gives your site a professional home page while keeping the design simple and easy to edit.
         </p>
 
-        <div class="cards">
-          <div class="card reveal">
-            <div class="icon" aria-hidden="true">📈</div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon">📈</div>
             <h3>Trading</h3>
-            <p>Rule-based entries/exits, risk controls, and journaling so decisions stay consistent.</p>
+            <p>Show your trading ideas, analysis summaries, or journal links in a neat structure.</p>
           </div>
-
-          <div class="card reveal">
-            <div class="icon" aria-hidden="true">🧱</div>
+          <div class="feature-card">
+            <div class="icon">💼</div>
             <h3>Investing</h3>
-            <p>Long-term thinking: business quality, valuation discipline, and portfolio allocation.</p>
+            <p>Present your long-term strategy, portfolio focus, or investing philosophy clearly.</p>
           </div>
-
-          <div class="card reveal">
-            <div class="icon" aria-hidden="true">🔎</div>
-            <h3>Stock Analysis</h3>
-            <p>Fundamental + technical checks, earnings notes, catalysts, and risk scenarios.</p>
-          </div>
-
-          <div class="card reveal">
-            <div class="icon" aria-hidden="true">🧪</div>
+          <div class="feature-card">
+            <div class="icon">🔎</div>
             <h3>Research</h3>
-            <p>Backtests, factor ideas, and summaries of what works (and what doesn’t).</p>
+            <p>Link your research pages, stock reports, and project notes directly from the menu.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Toolkit -->
-    <section id="toolkit">
+    <section id="about">
       <div class="container">
-        <h2 class="section-title reveal">Toolkit</h2>
-        <p class="section-sub reveal">
-          A clean set of tools and habits that keep analysis fast and repeatable.
-        </p>
-
-        <div class="grid-2">
-          <div class="panel reveal">
-            <div class="panel-inner">
-              <p class="mini-title">My workflow</p>
-              <p class="mini-sub">A simple loop that avoids overthinking.</p>
-
-              <div class="list" style="margin-top:12px">
-                <div class="item">
-                  <div><strong>Scan</strong><div class="muted">watchlist + market regime</div></div>
-                  <span class="tag">daily</span>
-                </div>
-                <div class="item">
-                  <div><strong>Analyze</strong><div class="muted">thesis, risks, triggers</div></div>
-                  <span class="tag">as needed</span>
-                </div>
-                <div class="item">
-                  <div><strong>Execute</strong><div class="muted">rules + position sizing</div></div>
-                  <span class="tag">disciplined</span>
-                </div>
-                <div class="item">
-                  <div><strong>Review</strong><div class="muted">journal + learnings</div></div>
-                  <span class="tag">weekly</span>
-                </div>
-              </div>
-            </div>
+        <div class="cta-box">
+          <div>
+            <h3>Easy to connect with other pages</h3>
+            <p>
+              The dropdown menu already links to <strong>about.html</strong>, <strong>projects.html</strong>, and <strong>contact.html</strong>.
+              Upload those files to the same GitHub repository and the links will work.
+            </p>
           </div>
-
-          <div class="panel reveal">
-            <div class="panel-inner">
-              <p class="mini-title">Key focus areas</p>
-              <p class="mini-sub">Use these as your “menu” for analysis.</p>
-
-              <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px">
-                <span class="pill">Risk-first sizing</span>
-                <span class="pill">Earnings tracking</span>
-                <span class="pill">Trend + mean reversion</span>
-                <span class="pill">Catalyst notes</span>
-                <span class="pill">Valuation bands</span>
-                <span class="pill">Macro context</span>
-                <span class="pill">Backtest discipline</span>
-                <span class="pill">Simple dashboards</span>
-              </div>
-
-              <div class="cta-row" style="margin-top:16px">
-                <button class="btn btn-primary" id="downloadBtn">Download Template</button>
-                <button class="btn" id="copyBtn">Copy Checklist</button>
-              </div>
-              <p class="mini-sub" id="toast" style="margin-top:10px; display:none;"></p>
-            </div>
-          </div>
+          <a href="#contact" class="btn btn-primary">Start Editing</a>
         </div>
       </div>
     </section>
 
-    <!-- Notes -->
-    <section id="notes">
+    <section class="cta" id="contact">
       <div class="container">
-        <h2 class="section-title reveal">Research notes</h2>
-        <p class="section-sub reveal">
-          Short, readable notes — so you can revisit ideas quickly.
-        </p>
-
-        <div class="grid-2">
-          <div class="panel reveal">
-            <div class="panel-inner">
-              <p class="mini-title">Latest entries</p>
-              <p class="mini-sub">Placeholders (replace with your real notes).</p>
-
-              <div class="list" style="margin-top:12px">
-                <div class="item">
-                  <div><strong>Momentum filters</strong><div class="muted">When trend-following breaks</div></div>
-                  <span class="tag">5 min read</span>
-                </div>
-                <div class="item">
-                  <div><strong>Risk checklist</strong><div class="muted">Before every trade</div></div>
-                  <span class="tag">quick</span>
-                </div>
-                <div class="item">
-                  <div><strong>Earnings playbook</strong><div class="muted">What I track each quarter</div></div>
-                  <span class="tag">practical</span>
-                </div>
-              </div>
-            </div>
+        <div class="cta-box">
+          <div>
+            <h3>Make it your own</h3>
+            <p>Change the title, text, menu links, and buttons to match your personal website or portfolio.</p>
           </div>
-
-          <div class="panel reveal">
-            <div class="panel-inner">
-              <p class="mini-title">Quick intro</p>
-              <p class="mini-sub">
-                I keep my analysis simple:
-                <strong>clear thesis</strong>, <strong>clear invalidation</strong>, and <strong>measured risk</strong>.
-                If the evidence changes, I update fast.
-              </p>
-
-              <div class="cards" style="grid-template-columns: 1fr; margin-top:12px">
-                <div class="card" style="min-height:auto">
-                  <h3 style="margin-top:0">My rule</h3>
-                  <p class="muted">“If I can’t explain it in 30 seconds, it’s not ready.”</p>
-                </div>
-                <div class="card" style="min-height:auto">
-                  <h3 style="margin-top:0">My goal</h3>
-                  <p class="muted">Repeatable process > lucky outcomes.</p>
-                </div>
-              </div>
-
-            </div>
+          <div class="hero-actions" style="margin: 0;">
+            <a href="mailto:your@email.com" class="btn btn-secondary">Email</a>
+            <a href="https://github.com/" class="btn btn-primary">GitHub</a>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Contact -->
-    <section id="contact">
-      <div class="container">
-        <div class="panel reveal">
-          <div class="panel-inner" style="display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center;">
-            <div>
-              <p class="mini-title">Want this page to become your personal hub?</p>
-              <p class="mini-sub">Add your links (portfolio, GitHub, blog, trading journal) and make it yours.</p>
-            </div>
-            <div class="cta-row" style="margin:0">
-              <button class="btn btn-primary" id="editBtn">Edit Profile Info</button>
-              <a class="btn" href="#top">Back to top ↑</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="container foot">
-        <div>
-          <div class="brand" style="gap:10px">
-            <span class="brand-badge" aria-hidden="true" style="width:28px;height:28px;border-radius:10px"></span>
-            <strong>QuantDesk</strong>
-          </div>
-          <p class="muted" style="margin:10px 0 0; max-width:60ch">
-            Built with plain HTML/CSS/JS. No libraries. Easy to customize.
-          </p>
-        </div>
-
-        <div style="display:flex; gap:18px; flex-wrap:wrap">
-          <a href="#work">What I do</a>
-          <a href="#toolkit">Toolkit</a>
-          <a href="#notes">Notes</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </div>
-    </footer>
   </main>
 
+  <footer>
+    <div class="container footer-wrap">
+      <div>© 2026 MarketScope. Built with HTML, CSS and JavaScript.</div>
+      <div>Upload as <strong>index.html</strong> on GitHub Pages.</div>
+    </div>
+  </footer>
+
   <script>
-    // -----------------------------
-    // Helpers
-    // -----------------------------
-    const $ = (sel, root=document) => root.querySelector(sel);
-    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const dropBtn = document.getElementById('dropBtn');
+    const pagesDropdown = document.getElementById('pagesDropdown');
 
-    // -----------------------------
-    // Mobile menu
-    // -----------------------------
-    const menuBtn = $("#menuBtn");
-    const mobileMenu = $("#mobileMenu");
-    if (menuBtn){
-      menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("open");
-      });
-      $$("#mobileMenu a").forEach(a => {
-        a.addEventListener("click", () => mobileMenu.classList.remove("open"));
-      });
-      document.addEventListener("click", (e) => {
-        if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)){
-          mobileMenu.classList.remove("open");
+    menuToggle.addEventListener('click', function () {
+      navLinks.classList.toggle('show');
+    });
+
+    dropBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      pagesDropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!pagesDropdown.contains(e.target)) {
+        pagesDropdown.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.innerWidth <= 760) {
+          navLinks.classList.remove('show');
         }
       });
-    }
-
-    // -----------------------------
-    // Theme toggle (saved)
-    // -----------------------------
-    const themeBtn = $("#themeBtn");
-    const root = document.body;
-
-    function setTheme(mode){
-      root.classList.remove("theme-dark","theme-light");
-      root.classList.add(mode);
-      localStorage.setItem("theme", mode);
-      // update icon a bit (sun/moon feel by switching stroke opacity)
-      $("#themeIcon").style.opacity = (mode === "theme-light") ? "0.92" : "0.98";
-    }
-
-    const saved = localStorage.getItem("theme");
-    setTheme(saved || "theme-dark");
-
-    themeBtn.addEventListener("click", () => {
-      const next = root.classList.contains("theme-dark") ? "theme-light" : "theme-dark";
-      setTheme(next);
-      drawChart(currentRange); // redraw with better contrast
-    });
-
-    // -----------------------------
-    // Smooth scroll
-    // -----------------------------
-    $$('a[href^="#"]').forEach(a => {
-      a.addEventListener("click", (e) => {
-        const id = a.getAttribute("href");
-        if (!id || id === "#") return;
-        const el = document.querySelector(id);
-        if (!el) return;
-        e.preventDefault();
-        el.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-    });
-
-    // -----------------------------
-    // Reveal on scroll
-    // -----------------------------
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(en => {
-        if (en.isIntersecting){
-          en.target.classList.add("show");
-          io.unobserve(en.target);
-        }
-      });
-    }, {threshold: 0.12});
-
-    $$(".reveal").forEach(el => io.observe(el));
-
-    // -----------------------------
-    // Counter animation
-    // -----------------------------
-    function animateCount(el, to){
-      const start = 0;
-      const dur = 900;
-      const t0 = performance.now();
-      const step = (t) => {
-        const p = Math.min(1, (t - t0) / dur);
-        const val = Math.round(start + (to - start) * (1 - Math.pow(1 - p, 3)));
-        el.textContent = val.toLocaleString();
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
-
-    const kpiIO = new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
-        if (en.isIntersecting){
-          $$("[data-count]").forEach(el => animateCount(el, Number(el.dataset.count || 0)));
-          kpiIO.disconnect();
-        }
-      });
-    }, {threshold: 0.3});
-
-    const kpiAnchor = $$("[data-count]")[0];
-    if (kpiAnchor) kpiIO.observe(kpiAnchor);
-
-    // -----------------------------
-    // Canvas mini chart (demo)
-    // -----------------------------
-    const canvas = $("#chart");
-    const ctx = canvas.getContext("2d", { alpha: true });
-    let currentRange = 7;
-    let hoverIdx = -1;
-
-    function randWalk(n, start=100){
-      let v = start;
-      const out = [];
-      for (let i=0;i<n;i++){
-        v += (Math.random() - 0.47) * (n < 20 ? 2.2 : 1.2);
-        out.push(v);
-      }
-      return out;
-    }
-
-    function normalize(series){
-      const min = Math.min(...series);
-      const max = Math.max(...series);
-      const span = (max - min) || 1;
-      return series.map(v => (v - min) / span);
-    }
-
-    function resizeCanvasToCSS(){
-      // make canvas crisp on retina
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(220 * dpr);
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-
-    function colors(){
-      // slightly different contrast in light mode
-      const dark = root.classList.contains("theme-dark");
-      return {
-        grid: dark ? "rgba(255,255,255,0.10)" : "rgba(12,16,32,0.10)",
-        text: dark ? "rgba(233,238,252,0.85)" : "rgba(12,16,32,0.78)",
-        muted: dark ? "rgba(169,179,209,0.75)" : "rgba(75,88,122,0.72)",
-        a: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
-        b: getComputedStyle(document.documentElement).getPropertyValue("--accent2").trim()
-      };
-    }
-
-    function drawLine(seriesN, strokeStyle, thickness=2){
-      const W = canvas.getBoundingClientRect().width;
-      const H = 220;
-      const pad = 16;
-
-      ctx.beginPath();
-      for (let i=0;i<seriesN.length;i++){
-        const x = pad + (i/(seriesN.length-1))*(W - pad*2);
-        const y = pad + (1-seriesN[i])*(H - pad*2);
-        if (i===0) ctx.moveTo(x,y);
-        else ctx.lineTo(x,y);
-      }
-      ctx.lineWidth = thickness;
-      ctx.strokeStyle = strokeStyle;
-      ctx.stroke();
-    }
-
-    function drawGrid(){
-      const W = canvas.getBoundingClientRect().width;
-      const H = 220;
-      const pad = 16;
-      const c = colors();
-
-      ctx.clearRect(0,0,W,H);
-
-      // subtle gradient overlay
-      const g = ctx.createLinearGradient(0,0,W,H);
-      g.addColorStop(0, "rgba(255,255,255,0.05)");
-      g.addColorStop(1, "rgba(255,255,255,0.00)");
-      ctx.fillStyle = g;
-      ctx.fillRect(0,0,W,H);
-
-      ctx.strokeStyle = c.grid;
-      ctx.lineWidth = 1;
-
-      const rows = 4;
-      for (let r=0;r<=rows;r++){
-        const y = pad + (r/rows)*(H - pad*2);
-        ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
-      }
-
-      const cols = 6;
-      for (let k=0;k<=cols;k++){
-        const x = pad + (k/cols)*(W - pad*2);
-        ctx.beginPath(); ctx.moveTo(x,pad); ctx.lineTo(x,H-pad); ctx.stroke();
-      }
-    }
-
-    function drawHover(seriesA, seriesB){
-      if (hoverIdx < 0) return;
-      const W = canvas.getBoundingClientRect().width;
-      const H = 220;
-      const pad = 16;
-      const c = colors();
-
-      const x = pad + (hoverIdx/(seriesA.length-1))*(W - pad*2);
-      const yA = pad + (1-seriesA[hoverIdx])*(H - pad*2);
-      const yB = pad + (1-seriesB[hoverIdx])*(H - pad*2);
-
-      // vertical guide
-      ctx.strokeStyle = c.grid;
-      ctx.beginPath(); ctx.moveTo(x,pad); ctx.lineTo(x,H-pad); ctx.stroke();
-
-      // points
-      ctx.fillStyle = c.a;
-      ctx.beginPath(); ctx.arc(x,yA,4,0,Math.PI*2); ctx.fill();
-
-      ctx.fillStyle = c.b;
-      ctx.beginPath(); ctx.arc(x,yB,4,0,Math.PI*2); ctx.fill();
-
-      // tooltip
-      const boxW = 170;
-      const boxH = 54;
-      const bx = Math.min(W - boxW - 10, Math.max(10, x + 12));
-      const by = 14;
-
-      ctx.fillStyle = root.classList.contains("theme-dark")
-        ? "rgba(10,12,18,0.78)"
-        : "rgba(255,255,255,0.88)";
-      ctx.strokeStyle = c.grid;
-      ctx.lineWidth = 1;
-      roundRect(ctx, bx, by, boxW, boxH, 12, true, true);
-
-      ctx.fillStyle = c.text;
-      ctx.font = "700 12px ui-sans-serif, system-ui";
-      const aVal = rawA[hoverIdx].toFixed(2);
-      const bVal = rawB[hoverIdx].toFixed(2);
-      ctx.fillText(`Equity: ${aVal}`, bx + 12, by + 22);
-      ctx.fillStyle = c.muted;
-      ctx.font = "700 12px ui-sans-serif, system-ui";
-      ctx.fillText(`Benchmark: ${bVal}`, bx + 12, by + 40);
-    }
-
-    function roundRect(ctx, x, y, w, h, r, fill, stroke){
-      const rr = Math.min(r, w/2, h/2);
-      ctx.beginPath();
-      ctx.moveTo(x+rr,y);
-      ctx.arcTo(x+w,y,x+w,y+h,rr);
-      ctx.arcTo(x+w,y+h,x,y+h,rr);
-      ctx.arcTo(x,y+h,x,y,rr);
-      ctx.arcTo(x,y,x+w,y,rr);
-      ctx.closePath();
-      if (fill) ctx.fill();
-      if (stroke) ctx.stroke();
-    }
-
-    let rawA = [];
-    let rawB = [];
-
-    function drawChart(range){
-      currentRange = range;
-      resizeCanvasToCSS();
-
-      const n = Math.max(8, Math.min(140, Math.round(range / 2)));
-      rawA = randWalk(n, 100);
-      rawB = randWalk(n, 100);
-
-      const A = normalize(rawA);
-      const B = normalize(rawB);
-
-      drawGrid();
-
-      // lines
-      const c = colors();
-      drawLine(B, c.b, 2);
-      drawLine(A, c.a, 2.5);
-
-      // hover after
-      drawHover(A, B);
-    }
-
-    // Range buttons
-    $$(".seg button").forEach(btn=>{
-      btn.addEventListener("click", () => {
-        $$(".seg button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        hoverIdx = -1;
-        drawChart(Number(btn.dataset.range));
-      });
-    });
-
-    // Hover interaction
-    canvas.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const n = rawA.length || 1;
-      const pad = 16;
-      const W = rect.width;
-      const t = (x - pad) / (W - pad*2);
-      const idx = Math.round(Math.max(0, Math.min(1, t)) * (n - 1));
-      hoverIdx = idx;
-      drawChart(currentRange);
-    });
-    canvas.addEventListener("mouseleave", () => {
-      hoverIdx = -1;
-      drawChart(currentRange);
-    });
-
-    window.addEventListener("resize", () => drawChart(currentRange));
-    drawChart(7);
-
-    // -----------------------------
-    // Buttons (demo actions)
-    // -----------------------------
-    const toast = $("#toast");
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.style.display = "block";
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=> toast.style.display = "none", 2200);
-    }
-
-    $("#openDash").addEventListener("click", () => {
-      showToast("Demo: Connect this button to your real dashboard link.");
-      document.querySelector("#toolkit").scrollIntoView({behavior:"smooth"});
-    });
-
-    $("#downloadBtn").addEventListener("click", () => {
-      // demo "download": create a small text file in-browser
-      const text =
-`Trading / Investing Checklist
-1) Thesis (1–2 lines)
-2) Invalidation (clear exit rule)
-3) Position size (risk-first)
-4) Key levels + catalysts
-5) Notes after execution`;
-      const blob = new Blob([text], {type:"text/plain"});
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "checklist.txt";
-      a.click();
-      URL.revokeObjectURL(a.href);
-      showToast("Downloaded: checklist.txt");
-    });
-
-    $("#copyBtn").addEventListener("click", async () => {
-      const text =
-`Quick Checklist:
-- Thesis (simple)
-- Risk + stop / invalidation
-- Position size (risk-first)
-- Entry trigger
-- Exit plan
-- Journal note`;
-      try{
-        await navigator.clipboard.writeText(text);
-        showToast("Copied checklist to clipboard ✅");
-      }catch{
-        showToast("Clipboard blocked by browser (try HTTPS).");
-      }
-    });
-
-    $("#editBtn").addEventListener("click", () => {
-      showToast("Tip: Replace text in HTML, and add your links in the footer.");
     });
   </script>
 </body>
